@@ -9,8 +9,8 @@ developed in order to help me out.
 packcat
 -------
 The ``packcat`` command emulates the ``cat`` command, after translating the
-file in question to a Python dictionary. The dictionary is sent to the user via
-the ``pprint`` library.
+file in question to a Python dictionary. The dictionary is displayed to the user
+in JSON format.
 
 packedit
 --------
