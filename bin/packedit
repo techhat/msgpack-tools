@@ -1,0 +1,33 @@
+#!/usr/bin/python2
+'''
+Convert the contents of a msgpack file to a JSON dictionary, and allow it to be
+edited in the EDITOR of choice.
+'''
+
+import os
+import sys
+import tempfile
+import msgpack
+import json
+import subprocess
+
+editor = os.environ.get('EDITOR', 'vim')
+path = sys.argv[1]
+
+with open(path, 'r') as orig_if:
+    packdict = msgpack.load(orig_if)
+
+tmpfh, tmppath = tempfile.mkstemp()
+
+with open(tmppath, 'w') as orig_of:
+    json.dump(packdict, orig_of)
+
+subprocess.call([editor, tmppath])
+
+with open(tmppath, 'r') as new_if:
+    jsondict = json.load(new_if)
+
+with open(path, 'w') as new_of:
+    msgpack.dump(jsondict, new_of)
+
+os.remove(tmppath)
