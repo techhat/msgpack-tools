@@ -4,10 +4,10 @@ Convert the contents of a msgpack file to a Python dictionary, and pprint it.
 '''
 
 import sys
-import pprint
+import json
 import msgpack
 
 path = sys.argv[1]
 
 with open(path, 'r') as fh_:
-    pprint.pprint(msgpack.load(fh_))
+    print(json.dumps(msgpack.load(fh_), sort_keys=True, indent=2))
