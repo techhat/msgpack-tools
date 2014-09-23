@@ -1,0 +1,13 @@
+#!/usr/bin/python2
+'''
+Convert the contents of a msgpack file to a Python dictionary, and pprint it.
+'''
+
+import sys
+import pprint
+import msgpack
+
+path = sys.argv[1]
+
+with open(path, 'r') as fh_:
+    pprint.pprint(msgpack.load(fh_))
