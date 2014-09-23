@@ -20,7 +20,7 @@ with open(path, 'r') as orig_if:
 tmpfh, tmppath = tempfile.mkstemp()
 
 with open(tmppath, 'w') as orig_of:
-    json.dump(packdict, orig_of)
+    json.dump(packdict, orig_of, sort_keys=True, indent=2)
 
 subprocess.call([editor, tmppath])
 
