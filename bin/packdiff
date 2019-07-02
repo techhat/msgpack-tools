@@ -19,7 +19,7 @@ file2 = sys.argv[2]
 with open(file1, 'r') as orig_if:
     packdict = msgpack.load(orig_if)
 
-tmpfh1, tmppath1 = tempfile.mkstemp()
+tmpfh1, tmppath1 = tempfile.mkstemp(suffix='.json')
 
 with open(tmppath1, 'w') as orig_of:
     json.dump(packdict, orig_of, sort_keys=True, indent=2)
@@ -28,7 +28,7 @@ with open(tmppath1, 'w') as orig_of:
 with open(file2, 'r') as orig_if:
     packdict = msgpack.load(orig_if)
 
-tmpfh2, tmppath2 = tempfile.mkstemp()
+tmpfh2, tmppath2 = tempfile.mkstemp(suffix='.json')
 
 with open(tmppath2, 'w') as orig_of:
     json.dump(packdict, orig_of, sort_keys=True, indent=2)

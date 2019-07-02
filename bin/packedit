@@ -17,7 +17,7 @@ path = sys.argv[1]
 with open(path, 'r') as orig_if:
     packdict = msgpack.load(orig_if)
 
-tmpfh, tmppath = tempfile.mkstemp()
+tmpfh, tmppath = tempfile.mkstemp(suffix='.json')
 
 with open(tmppath, 'w') as orig_of:
     json.dump(packdict, orig_of, sort_keys=True, indent=2)
