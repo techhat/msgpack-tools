@@ -17,3 +17,9 @@ packedit
 The ``packedit`` command will read a ``msgpack``-encoded file, convert it to
 JSON, and open it for editing in the ``EDITOR`` that is defined in the
 shell environment. If no ``EDITOR`` is set, ``vim`` is used by default.
+
+packdiff
+--------
+The ``packdiff`` command will read two ``msgpack``-encoded files, convert them
+to JSON, and open them for editing in the ``DIFFTOOL`` that is defined in the
+shell environment. If no ``DIFFTOOL`` is set, ``vimdiff`` is used by default.
