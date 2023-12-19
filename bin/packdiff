@@ -1,8 +1,8 @@
-#!/usr/bin/python2
-'''
+#!/usr/bin/env python3
+"""
 Convert the contents of a msgpack file to a JSON dictionary, and allow it to be
 edited in the DIFFTOOL of choice.
-'''
+"""
 
 import os
 import sys
@@ -11,40 +11,51 @@ import msgpack
 import json
 import subprocess
 
-difftool = os.environ.get('DIFFTOOL', 'vimdiff')
+difftool = os.environ.get("DIFFTOOL", "vimdiff")
 file1 = sys.argv[1]
 file2 = sys.argv[2]
 
+empty_files = []
+if not os.path.getsize(file1):
+    empty_files.append(file1)
+if not os.path.getsize(file2):
+    empty_files.append(file2)
+
+if empty_files:
+    empty_files_msg = "\n    ".join(empty_files)
+    print(f"The following files are empty:\n    {empty_files_msg}", file=sys.stderr)
+    sys.exit()
+
 # Handle file1
-with open(file1, 'r') as orig_if:
+with open(file1, "rb") as orig_if:
     packdict = msgpack.load(orig_if)
 
-tmpfh1, tmppath1 = tempfile.mkstemp(suffix='.json')
+tmpfh1, tmppath1 = tempfile.mkstemp(suffix=".json")
 
-with open(tmppath1, 'w') as orig_of:
+with open(tmppath1, "w") as orig_of:
     json.dump(packdict, orig_of, sort_keys=True, indent=2)
 
 # Handle file2
-with open(file2, 'r') as orig_if:
+with open(file2, "rb") as orig_if:
     packdict = msgpack.load(orig_if)
 
-tmpfh2, tmppath2 = tempfile.mkstemp(suffix='.json')
+tmpfh2, tmppath2 = tempfile.mkstemp(suffix=".json")
 
-with open(tmppath2, 'w') as orig_of:
+with open(tmppath2, "w") as orig_of:
     json.dump(packdict, orig_of, sort_keys=True, indent=2)
 
 subprocess.call([difftool, tmppath1, tmppath2])
 
-with open(tmppath1, 'r') as new_if:
+with open(tmppath1, "r") as new_if:
     jsondict = json.load(new_if)
 
-with open(file1, 'w') as new_of:
+with open(file1, "wb") as new_of:
     msgpack.dump(jsondict, new_of)
 
-with open(tmppath2, 'r') as new_if:
+with open(tmppath2, "r") as new_if:
     jsondict = json.load(new_if)
 
-with open(file2, 'w') as new_of:
+with open(file2, "wb") as new_of:
     msgpack.dump(jsondict, new_of)
 
 os.remove(tmppath1)

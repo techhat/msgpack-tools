@@ -1,13 +1,18 @@
-#!/usr/bin/python2
-'''
+#!/usr/bin/env python3
+"""
 Convert the contents of a msgpack file to a Python dictionary, and pprint it.
-'''
+"""
 
+import os
 import sys
 import json
 import msgpack
 
 path = sys.argv[1]
 
-with open(path, 'r') as fh_:
+if not os.path.getsize(path):
+    print(f"{path} is empty", file=sys.stderr)
+    sys.exit()
+
+with open(path, "rb") as fh_:
     print(json.dumps(msgpack.load(fh_), sort_keys=True, indent=2))
